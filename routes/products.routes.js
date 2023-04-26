@@ -2,7 +2,7 @@ const { Router } = require("express");
 const route = Router();
 const { body } = require("express-validator");
 
-route.get('/get-all-products', (req, res)=>{
+route.get('/get-all-products/:id', (req, res)=>{
     res.status(200).json('Este es el listado de productos')
 } );
 
