@@ -1,16 +1,22 @@
-const express = require ('express');
+const express = require("express");
 const app = express();
-require('dotenv/config');
+require("dotenv/config");
 const port = process.env.PORT;
-const morgan = require('morgan');
-const cors = require('cors');
+const morgan = require("morgan");
+const cors = require("cors");
+const userRoutes = require("../routes/user.routes");
+require("../dataBase/dbConnection");
 
 //middleware
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(cors());
+app.use("/user", userRoutes);
 
+app.get("/", (req, res) => {
+  res.send("hola mundo");
+});
 
-app.listen(port,()=>{
-    console.log(`estamos escuchando el puerto ${port}`);
-})
+app.listen(port, () => {
+  console.log(`estamos escuchando el puerto ${port}`);
+});
