@@ -13,10 +13,6 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use("/user", userRoutes);
 
-app.get("/", (req, res) => {
-  res.send("hola mundo");
-});
-
 app.listen(port, () => {
   console.log(`estamos escuchando el puerto ${port}`);
 });

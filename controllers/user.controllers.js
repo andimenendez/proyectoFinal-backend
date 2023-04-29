@@ -1,10 +1,10 @@
 //Logica de negocio
+const { validationResult } = require("express-validator");
 const {
-  obtenerTodosLosUsuarios,
   obtenerUsuarioPorId,
   crearUsuarios,
   editarUsuarios,
-  eliminarUsuarios,
+  eliminarUsuario,
   buscarPorEmail,
 } = require("../services/user.services");
 
@@ -26,13 +26,12 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     const user = req.body;
-    const emailExist = await buscarPorEmail(user.email);
-    if (emailExist.length === 0) {
-      const newUser = await crearUsuarios(user);
-      res.status(201).json(newUser);
-      return;
-    }
-    res.status(400).json("El usuario ya se encuentra registrado.");
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
+
+    const newUser = await crearUsuarios(user);
+    res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -52,15 +51,28 @@ const editUser = async (req, res) => {
   }
 };
 
+const disableUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const disable = true;
+    const resp = await editarUsuarios(id, { disable });
+
+    if (!resp) return res.status(404).json("Usuario no encontrado");
+
+    res.status(200).json(resp);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const idExist = await obtenerUsuarioPorId(id);
-    if (idExist.length === 0) {
+    const resp = await eliminarUsuario(id);
+    if (!resp) {
       res.status(404).json("no se encontro el usuario");
       return;
     }
-    const deleteUserById = await eliminarUsuarios(id);
     res.status(200).json("se elimino el usuario");
   } catch (error) {
     res.status(500).json(error.message);
@@ -71,5 +83,6 @@ module.exports = {
   getUserById,
   createUser,
   editUser,
+  disableUser,
   deleteUser,
 };

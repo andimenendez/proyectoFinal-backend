@@ -13,16 +13,18 @@ const crearUsuarios = async (user) => {
   return await newUser.save();
 };
 
-const editarUsuarios = async (id, userData) => {};
+const editarUsuarios = async (id, userData) => {
+  return User.findByIdAndUpdate(id, userData);
+};
 
-const eliminarUsuarios = async (id) => {
-  return await User.deleteOne({ _id: id });
+const eliminarUsuario = async (id) => {
+  return await User.findByIdAndDelete(id);
 };
 
 module.exports = {
   obtenerUsuarioPorId,
   crearUsuarios,
   editarUsuarios,
-  eliminarUsuarios,
+  eliminarUsuario,
   buscarPorEmail,
 };
