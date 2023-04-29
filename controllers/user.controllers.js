@@ -11,13 +11,12 @@ const {
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const idExist = await obtenerUsuarioPorId(id);
-    console.log(idExist);
-    if (idExist.length === 0) {
+    const resp = await obtenerUsuarioPorId(id);
+    if (!resp) {
       res.status(404).json("no se encontro el usuario");
       return;
     }
-    res.status(200).json(idExist);
+    res.status(200).json(resp);
   } catch (error) {
     res.status(500).json(error.message);
   }

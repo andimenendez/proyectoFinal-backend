@@ -18,9 +18,18 @@ route.post(
   body("email")
     .isEmail()
     .withMessage("El formato de email es incorrecto")
-    .notEmpty()
+    .not()
+    .isEmpty()
     .withMessage("el campo esta vacio")
     .custom(emailValidation),
+  body("password")
+    .matches(/^[A-Za-z0-9]{8,16}$/)
+    .withMessage("La contraseña no cumple con los requisitos"),
+  body("name"),
+  body("lastName"),
+  body("cellphone")
+    .matches(/^[0-9]{10,11}$/)
+    .withMessage("El número de Celular no cumple los requisitos"),
   createUser
 );
 
