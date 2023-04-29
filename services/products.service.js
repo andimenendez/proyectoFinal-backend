@@ -1,29 +1,36 @@
-const getProduct = async ()=> {
+const Product = require('../models/products.model');
 
+const getProductService = async ()=> {
+    return await Product.find();
 };
 
-const getByIds = async ()=> { 
-
+const getProductByIdService = async (id)=> { 
+    return Product.findById(id);
 };
  
-const createProduct = async ()=> {
+const createProductService = async (products)=> {
+    const newProduct = new Product(products);
+    return await newProduct.save();
+};
+
+const editProductService = async ()=> {
 
 };
 
-const editProduct = async ()=> {
+const deleteProductService = async ()=> {
 
 };
-
-const deleteProduct = async ()=> {
+const disableProductService = async(req,res) =>{
 
 };
 
 module.exports = {
-    getProduct,
-    getByIds,
-    createProduct,
-    editProduct,
-    deleteProduct,
+    getProductService,
+    getProductByIdService,
+    createProductService,
+    editProductService,
+    deleteProductService,
+    disableProductService
 }
 
 //Los products.service se diferencian de los product controllers por no tener la "s" en productS.

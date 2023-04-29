@@ -4,13 +4,7 @@ require('dotenv/config');
 const port = process.env.PORT;
 const morgan = require('morgan');
 const cors = require('cors');
-const products.routes = require('../routes/products.routes')
-const mongoose = require('mongoose');
-
-try {
-    mongoose.connect('mongodb://127.0.0.1:27017/testAMcreación')
-console.log('C. exitosa.')
-}
+const productsRoutes = require('../routes/products.routes');
 
 
 //Middleware
@@ -19,7 +13,7 @@ app.use(morgan('dev'));
 app.use(cors()); 
 
 //Rutas
-app.use('/products', products.routes)
+app.use('/products', productsRoutes);
 
 
 app.listen(port,()=>{
