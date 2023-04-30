@@ -1,6 +1,6 @@
 const Product = require('../models/products.model');
 
-const getProductService = async ()=> {
+const getAllProductService = async ()=> {
     return await Product.find();
 };
 
@@ -25,7 +25,7 @@ const disableProductService = async(req,res) =>{
 };
 
 module.exports = {
-    getProductService,
+    getAllProductService,
     getProductByIdService,
     createProductService,
     editProductService,
