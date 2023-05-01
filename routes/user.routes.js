@@ -8,8 +8,8 @@ const {
   deleteUser,
   disableUser,
 } = require("../controllers/user.controllers");
-
 const { emailValidation } = require("../helpers/user.validations");
+const { jwtvalidator } = require("../middleware/jwtValidation");
 
 route.get("/get-by-id/:id", getUserById);
 
@@ -42,7 +42,7 @@ route.post(
   createUser
 );
 
-route.patch("/edit-user/:id", editUser);
+route.patch("/edit-user/:id", jwtvalidator, editUser);
 
 route.patch("/disable-user/:id", disableUser);
 
