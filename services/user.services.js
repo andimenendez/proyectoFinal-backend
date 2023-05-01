@@ -5,7 +5,7 @@ const obtenerUsuarioPorId = async (id) => {
 };
 
 const buscarPorEmail = async (email) => {
-  return await User.find({ email: email });
+  return await User.findOne({ email });
 };
 
 const crearUsuarios = async (user) => {

@@ -1,8 +1,9 @@
 const User = require("../models/user.model");
 
 const emailValidation = async (email) => {
-  const searchMail = await User.find({ email });
-  if (searchMail.lenght !== 0) {
+  const searchMail = await User.findOne({ email });
+
+  if (searchMail) {
     throw new Error(`El mail ${email} ya se encuentra registrado`);
   }
   return false;

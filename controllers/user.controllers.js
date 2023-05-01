@@ -1,5 +1,6 @@
 //Logica de negocio
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 const {
   obtenerUsuarioPorId,
   crearUsuarios,
@@ -24,12 +25,13 @@ const getUserById = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const user = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty())
       return res.status(400).json({ errors: errors.array() });
-
-    const newUser = await crearUsuarios(user);
+    const saltRound = bcrypt.genSaltSync(10);
+    const userData = req.body;
+    userData.password = bcrypt.hashSync(userData.password, saltRound);
+    const newUser = await crearUsuarios(userData);
     res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json(error.message);
