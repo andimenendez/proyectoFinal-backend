@@ -26,6 +26,11 @@ const userSchema = Schema({
     required: [true, "Este campo es requerido"],
   },
 
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+
   disabled: {
     type: Boolean,
     default: false,

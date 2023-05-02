@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
     const userData = req.body;
     userData.password = bcrypt.hashSync(userData.password, saltRound);
     const newUser = await crearUsuarios(userData);
-    res.status(201).json(newUser);
+    res.status(201).json("Te registraste exitosamente, Bienvenido!");
   } catch (error) {
     res.status(500).json(error.message);
   }
