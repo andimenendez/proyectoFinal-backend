@@ -9,9 +9,10 @@ const login = async (req, res) => {
     const searchMail = await User.findOne({ email });
 
     if (!searchMail)
-      return res.status(401).json("Usuario o contraseña incorrecto.");
+      return res.status(401).json({ msg: "Usuario o contraseña incorrecto." });
     const match = bcrypt.compareSync(password, searchMail.password);
-    if (!match) return res.status(401).json("Usuario o contraseña incorrecto.");
+    if (!match)
+      return res.status(401).json({ msg: "Usuario o contraseña incorrecto." });
 
     const payload = {
       id: searchMail.id,
@@ -19,7 +20,9 @@ const login = async (req, res) => {
     };
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1h" });
 
-    return res.status(200).json({ msg: "Ingresaste con exito", token });
+    return res
+      .status(200)
+      .json({ msg: "Ingresaste con exito", token, id: searchMail.id });
   } catch (error) {
     console.log(error);
   }

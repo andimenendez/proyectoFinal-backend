@@ -1,6 +1,7 @@
 //Logica de negocio
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const {
   obtenerUsuarioPorId,
   crearUsuarios,
@@ -32,9 +33,19 @@ const createUser = async (req, res) => {
     const userData = req.body;
     userData.password = bcrypt.hashSync(userData.password, saltRound);
     const newUser = await crearUsuarios(userData);
-    res.status(201).json("Te registraste exitosamente, Bienvenido!");
+
+    const payload = {
+      id: userData.id,
+      email: userData.email,
+    };
+    const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1h" });
+    res.status(201).json({
+      msg: "Te registraste exitosamente, Bienvenido!",
+      id: userData.id,
+      token,
+    });
   } catch (error) {
-    res.status(500).json(error.message);
+    res.status(500).json({ msg: error.message });
   }
 };
 
@@ -44,11 +55,39 @@ const editUser = async (req, res) => {
     const userData = req.body;
     const resp = await editarUsuarios(id, userData);
 
-    if (!resp) return res.status(404).json("Usuario no encontrado");
+    if (!resp)
+      return res.status(404).json({
+        msg: "Ups.. algo fallo, intentelo más tarde",
+        msgDev: "usuario no encontrado",
+      });
 
-    res.status(200).json(resp);
+    res.status(200).json({ msg: "modificado con exito", resp });
   } catch (error) {
-    res.status(500).json(error.message);
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+const recoverPass = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const resp = await buscarPorEmail(email);
+    console.log(password);
+    if (!resp)
+      return res.status(404).json({
+        msg: "Ups.. algo fallo, contacte al Administrador",
+        msgDev: "usuario no encontrado",
+      });
+
+    const { id } = resp;
+    const userData = { password };
+
+    const saltRound = bcrypt.genSaltSync(10);
+    userData.password = bcrypt.hashSync(userData.password, saltRound);
+
+    const sendPass = await editarUsuarios(id, userData);
+    res.status(200).json({ msg: "modificado con exito", resp, sendPass });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
   }
 };
 
@@ -86,4 +125,5 @@ module.exports = {
   editUser,
   disableUser,
   deleteUser,
+  recoverPass,
 };

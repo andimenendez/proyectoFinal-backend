@@ -14,6 +14,8 @@ const crearUsuarios = async (user) => {
 };
 
 const editarUsuarios = async (id, userData) => {
+  console.log(id);
+  console.log(userData);
   return User.findByIdAndUpdate(id, userData);
 };
 

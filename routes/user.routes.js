@@ -7,6 +7,7 @@ const {
   editUser,
   deleteUser,
   disableUser,
+  recoverPass,
 } = require("../controllers/user.controllers");
 const { emailValidation } = require("../helpers/user.validations");
 const { jwtvalidator } = require("../middleware/jwtValidation");
@@ -41,6 +42,7 @@ route.post(
     .withMessage("El número de Celular no cumple los requisitos"),
   createUser
 );
+route.post("/recover-pass", recoverPass);
 
 route.patch("/edit-user/:id", jwtvalidator, editUser);
 
