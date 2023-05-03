@@ -13,7 +13,7 @@ const productSchema = Schema ({
         type:String,
         required: false
     },
-    disponible:{
+    disable:{
         type:Boolean,
         require:true,
         default:true

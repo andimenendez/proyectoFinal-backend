@@ -13,24 +13,21 @@ const createProductService = async (products)=> {
     return await newProduct.save();
 };
 
-const editProductService = async ()=> {
-
+const editProductService = async (id,productData)=> {
+    return Product.findByIdAndUpdate(id,productData);
 };
 
-const deleteProductService = async ()=> {
-
+const deleteProductService = async (id)=> {
+    return Product.findByIdAndDelete(id);
 };
-const disableProductService = async(req,res) =>{
 
-};
 
 module.exports = {
     getAllProductService,
     getProductByIdService,
     createProductService,
     editProductService,
-    deleteProductService,
-    disableProductService
+    deleteProductService
 }
 
 //Los products.service se diferencian de los product controllers por no tener la "s" en productS.

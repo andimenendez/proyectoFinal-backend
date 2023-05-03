@@ -41,29 +41,35 @@ const editProducts = async(req, res) => {
         const { id } = req.params;
         const productData = req.body;
         const resp = await editProductService(id,productData);
+        if(!resp) return res.status(404).json('producto no encontrado');
+        res.status(201).json(resp);
 
     } catch (error) {
-        
+        res.status(500).json(error.message);
     }
-    
-    res.status(200).json('Producto editado con éxito')
  };
 
 const deleteProducts = async(req, res) => {
     try {
-        const { id } = req.params;
-        res.status(410).json('Producto eliminado con éxito')
+        const {id} =req.params;
+        const resp =await deleteProductService(id);
+        if(!resp) return res.status(404).json('Producto no encontrado');
+        res.status(200).json('producto eliminado exitosamente');
     } catch (error) {
-        
+        res.status(500).json(error.message);
     }
 
  };
 
  const disableProduct = async(req,res)=>{
     try {
-        
+        const {id} =req.params;
+        const disable = true;
+        const resp =await editProductService(id,{disable});
+        if(!resp) return res.status(404).json('Producto deshabilitado');
+        res.status(200).json(resp);
     } catch (error) {
-        
+        res.status(500).json(error.message);
     }
  }
 module.exports = {
