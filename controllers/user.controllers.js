@@ -1,5 +1,6 @@
 //Logica de negocio
 const { validationResult } = require("express-validator");
+const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const {
@@ -31,18 +32,25 @@ const createUser = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     const saltRound = bcrypt.genSaltSync(10);
     const userData = req.body;
+    const email = userData.email;
     userData.password = bcrypt.hashSync(userData.password, saltRound);
     const newUser = await crearUsuarios(userData);
-
+    const searchMail = await User.findOne({ email });
     const payload = {
-      id: userData.id,
+      id: searchMail.id,
       email: userData.email,
     };
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1h" });
     res.status(201).json({
       msg: "Te registraste exitosamente, Bienvenido!",
-      id: userData.id,
+      id: searchMail.id,
       token,
+      userData: {
+        id: searchMail.id,
+        name: userData.name,
+        lastName: userData.lastName,
+        email: userData.email,
+      },
     });
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -85,9 +93,9 @@ const recoverPass = async (req, res) => {
     userData.password = bcrypt.hashSync(userData.password, saltRound);
 
     const sendPass = await editarUsuarios(id, userData);
-    res.status(200).json({ msg: "modificado con exito", resp, sendPass });
+    res.status(200).json({ msg: "Eviado con exito" });
   } catch (error) {
-    res.status(500).json({ msg: error.message });
+    res.status(500).json({ msg: "fallo", mdgDev: error.message });
   }
 };
 

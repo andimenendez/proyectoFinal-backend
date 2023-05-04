@@ -20,9 +20,16 @@ const login = async (req, res) => {
     };
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1h" });
 
-    return res
-      .status(200)
-      .json({ msg: "Ingresaste con exito", token, id: searchMail.id });
+    return res.status(200).json({
+      msg: "Ingresaste con exito",
+      token,
+      userData: {
+        id: searchMail.id,
+        name: searchMail.name,
+        lastName: searchMail.lastName,
+        email: searchMail.email,
+      },
+    });
   } catch (error) {
     console.log(error);
   }

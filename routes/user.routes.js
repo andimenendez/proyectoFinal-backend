@@ -29,11 +29,17 @@ route.post(
   body("name")
     .not()
     .isEmpty()
-    .withMessage("el campo name no puede estar vacio"),
+    .withMessage("el campo name no puede estar vacio")
+    .isAlpha()
+    .withMessage("no puede tener números el nombre")
+    .trim(),
   body("lastName")
     .not()
     .isEmpty()
-    .withMessage("el campo lastName no puede estar vacio"),
+    .withMessage("el campo lastName no puede estar vacio")
+    .isAlpha()
+    .withMessage("no puede tener números el el apellido")
+    .trim(),
   body("cellphone")
     .not()
     .isEmpty()
@@ -42,9 +48,49 @@ route.post(
     .withMessage("El número de Celular no cumple los requisitos"),
   createUser
 );
-route.post("/recover-pass", recoverPass);
+route.patch(
+  "/recover-pass",
+  body("password")
+    .matches(/^[A-Za-z0-9]{8,16}$/)
+    .withMessage("La contraseña no cumple con los requisitos"),
+  recoverPass
+);
 
-route.patch("/edit-user/:id", jwtvalidator, editUser);
+route.patch(
+  "/edit-user/:id",
+  jwtvalidator,
+  body("email")
+    .isEmail()
+    .withMessage("El formato de email es incorrecto")
+    .not()
+    .isEmpty()
+    .withMessage("el campo email no puede estar vacio")
+    .custom(emailValidation),
+  body("password")
+    .matches(/^[A-Za-z0-9]{8,16}$/)
+    .withMessage("La contraseña no cumple con los requisitos"),
+  body("name")
+    .not()
+    .isEmpty()
+    .withMessage("el campo name no puede estar vacio")
+    .isAlpha()
+    .withMessage("no puede tener números el nombre")
+    .trim(),
+  body("lastName")
+    .not()
+    .isEmpty()
+    .withMessage("el campo lastName no puede estar vacio")
+    .isAlpha()
+    .withMessage("no puede tener números el el apellido")
+    .trim(),
+  body("cellphone")
+    .not()
+    .isEmpty()
+    .withMessage("el campo cellphone no puede estar vacio")
+    .matches(/^[0-9]{10,11}$/)
+    .withMessage("El número de Celular no cumple los requisitos"),
+  editUser
+);
 
 route.patch("/disable-user/:id", disableUser);
 
