@@ -33,7 +33,6 @@ const createProducts = async(req, res) => {
     } catch (error) {
         res.status(500).json(error.message);
     }
-
 };
 
 const editProducts = async(req, res) => {
@@ -72,11 +71,26 @@ const deleteProducts = async(req, res) => {
         res.status(500).json(error.message);
     }
  }
+
+ const destacarProducto = async (req,res) =>{
+    try {
+    const {id}=req.params;
+    const {destacado} = req.body;
+    const resp = await editProductService(id,{destacado});
+     if (!resp) return res.status(404).json('no se pudo destacar el articulo');
+     res.status(200).json(resp);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al destacar el producto');
+      }
+ }
+
 module.exports = {
     getAllProducts,
     getProductById,
     createProducts,
     editProducts,
     deleteProducts,
-    disableProduct
+    disableProduct,
+    destacarProducto
 };

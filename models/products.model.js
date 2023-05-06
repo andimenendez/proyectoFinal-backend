@@ -1,6 +1,7 @@
 const {Schema,model} = require('mongoose');
 
 const productSchema = Schema ({
+
     nombre:{
         type:String,
         require:[true,"el nombre es necesario"]
@@ -9,14 +10,13 @@ const productSchema = Schema ({
         type:Number,
         require:[true,"el precio es necesario"]
     }, 
-    descripcion: {
-        type:String,
+    disable: {
+        type:Boolean,
         required: false
     },
-    disable:{
-        type:Boolean,
-        require:true,
-        default:true
+    descripcion:{
+        type:String,
+        required:false,
     },
     categoria:{
         type:String,
@@ -24,6 +24,10 @@ const productSchema = Schema ({
     },
     imagenes:{
         type:String,
+        require:false
+    },
+    destacado:{
+        type:Boolean,
         require:false
     }
 });
