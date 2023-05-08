@@ -7,6 +7,11 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     const searchMail = await User.findOne({ email });
+    if (searchMail.disabled) {
+      return res.status(401).json({
+        msg: "Este correo se encuentra bloqueado, contacte al administrador",
+      });
+    }
 
     if (!searchMail)
       return res.status(401).json({ msg: "Usuario o contraseña incorrecto." });
@@ -28,6 +33,8 @@ const login = async (req, res) => {
         name: searchMail.name,
         lastName: searchMail.lastName,
         email: searchMail.email,
+        cellphone: searchMail.cellphone,
+        isAdmin: searchMail.isAdmin,
       },
     });
   } catch (error) {
