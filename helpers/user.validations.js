@@ -1,3 +1,4 @@
+//controllers
 const User = require("../models/user.model");
 
 const emailValidation = async (email) => {
