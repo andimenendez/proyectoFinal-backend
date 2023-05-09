@@ -1,4 +1,4 @@
-const { getAllProductService, getProductByIdService, createProductService, editProductService, deleteProductService,disableProductService} = require('../services/products.service')
+const { getAllProductService, getProductByIdService, createProductService, editProductService, deleteProductService} = require('../services/products.service')
 
 
 const getAllProducts = async (req, res) => {
@@ -85,7 +85,8 @@ const deleteProducts = async(req, res) => {
       }
  }
 
-module.exports = {
+
+ module.exports = {
     getAllProducts,
     getProductById,
     createProducts,
