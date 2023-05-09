@@ -21,6 +21,7 @@ const deleteProductService = async (id)=> {
     return Product.findByIdAndDelete(id);
 };
 
+
 module.exports = {
     getAllProductService,
     getProductByIdService,
