@@ -95,7 +95,7 @@ const destacarProducto = async (req, res) => {
 
 const getproductByName = async (req, res) => {
   try {
-    const { name } = req.params;
+    const { nombre } = req.params;
     const resp = await obtenerProductoPorNombre(nombre);
     if (!resp) {
       res.status(404).json("no se encontro el productos");
