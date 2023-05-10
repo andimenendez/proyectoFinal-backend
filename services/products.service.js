@@ -21,10 +21,16 @@ const deleteProductService = async (id) => {
   return Product.findByIdAndDelete(id);
 };
 
+// const obtenerProductoPorNombre = async (nombre) => {
+//   const regex = new RegExp(nombre, "i");
+
+//   return await Product.find({ nombre: { $regex: regex } });
+// };
+
 const obtenerProductoPorNombre = async (nombre) => {
   const regex = new RegExp(nombre, "i");
-
-  return await Product.find({ nombre: { $regex: regex } });
+  const productos = await Product.find({ nombre: { $regex: regex } });
+  return productos;
 };
 
 module.exports = {
