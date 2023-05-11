@@ -8,7 +8,6 @@ const {
   deleteProducts,
   disableProduct,
   destacarProducto,
-  getDestacado,
   getproductByName,
 } = require("../controllers/products.controllers");
 
