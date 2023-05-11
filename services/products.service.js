@@ -42,4 +42,4 @@ module.exports = {
   obtenerProductoPorNombre,
 };
 
-//Los products.service se diferencian de los product controllers por no tener la "s" en productS.
+
