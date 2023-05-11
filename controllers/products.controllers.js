@@ -71,7 +71,7 @@ const deleteProducts = async (req, res) => {
 const disableProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const disable = true;
+    const { disable } = req.body;
     const resp = await editProductService(id, { disable });
     if (!resp) return res.status(404).json("Producto deshabilitado");
     res.status(200).json(resp);
