@@ -13,7 +13,7 @@ const {
 
 route.get("/get-all-products", getAllProducts);
 
-route.get("/get-by-product/:name", getproductByName);
+route.get("/get-by-product/:nombre", getproductByName);
 
 route.get("/get-by-id/:id", getProductById);
 
