@@ -10,12 +10,11 @@ require("../dataBase/dbConnection");
 const loginAuth = require("../routes/login.routes");
 
 const port = process.env.PORT;
-//Middleware
+
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 
-//Rutas
 app.use("/products", productsRoutes);
 app.use("/user", userRoutes);
 app.use("/login", loginAuth);

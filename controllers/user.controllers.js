@@ -1,4 +1,3 @@
-//Logica de negocio
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 
@@ -78,10 +77,6 @@ const editUser = async (req, res) => {
   try {
     const { id } = req.params;
     const userData = req.body;
-
-    // const saltRound = bcrypt.genSaltSync(10);
-    // userData.password = bcrypt.hashSync(userData.password, saltRound);
-
     const resp = await editarUsuarios(id, userData);
 
     if (!resp)
